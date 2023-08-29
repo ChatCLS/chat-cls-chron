@@ -1,9 +1,10 @@
 const axios = require('axios');
 
-const initiateQuiz = () => {
-	axios
+const initiateQuiz = async () => {
+	console.log('inside initiate quiz');
+	await axios
 		.get(
-			'https://b535-103-199-84-169.ngrok-free.app/api/questionSet/fetchLatestExamInformation'
+			'https://edb5-103-199-84-171.ngrok-free.app/api/questionSet/fetchLatestExamInformation'
 		)
 		.then((response) => {
 			console.log('Quiz Initiated');

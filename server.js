@@ -1,26 +1,26 @@
 const cron = require('node-cron');
-
 const express = require('express');
 const server = express();
-const mongoose = require('mongoose');
+
 const { initiateQuiz } = require('./helper/initiateQuiz');
 const { convertDate } = require('./helper/convertExamSchedule');
+const { fetchLatestExamSchedules } = require('./helper/latestQuizSchedule');
 require('dotenv').config();
 const PORT = 8000;
 
-const dbConnect = () => {
-	mongoose
-		.connect(process.env.MONGO_URL)
-		.then(() => {
-			console.log('Database is connected');
-		})
-		.catch((err) => {
-			console.log('Error connecting to database: ' + err.message);
+// let examSchedules = [];
+
+cron.schedule('2 18 * * *', async () => {
+	let examSchedules = await fetchLatestExamSchedules();
+	if (examSchedules.length > 0) {
+		examSchedules.forEach((element) => {
+			console.log('🚀 ~ file: server.js:17 ~ examSchedules.forEach ~ element:', element);
+
+			cron.schedule(convertDate(element), initiateQuiz);
 		});
-};
+	}
+});
 
 server.listen(PORT, () => {
 	console.log(`listening on port ${PORT}`);
-	dbConnect();
-	cron.schedule(convertDate('2023-08-27T17:56:00.165+00:00'), initiateQuiz);
 });

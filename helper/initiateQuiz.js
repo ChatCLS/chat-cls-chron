@@ -4,10 +4,12 @@ const initiateQuiz = async () => {
 	console.log('inside initiate quiz');
 	await axios
 		.get(
-			'https://edb5-103-199-84-171.ngrok-free.app/api/questionSet/fetchLatestExamInformation'
+			'https://a44e-103-199-84-168.ngrok-free.app/api/questionSet/fetchLatestExamInformation'
 		)
 		.then((response) => {
-			console.log('Quiz Initiated');
+			if (response.status === 200) {
+				console.log('Quiz Initiated');
+			}
 		})
 		.catch((err) => {
 			console.log(err);

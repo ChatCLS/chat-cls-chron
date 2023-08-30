@@ -10,10 +10,10 @@ const PORT = 8000;
 
 // let examSchedules = [];
 
-cron.schedule('2 18 * * *', async () => {
+cron.schedule('13 13 * * *', async () => {
 	let examSchedules = await fetchLatestExamSchedules();
 	if (examSchedules.length > 0) {
-		examSchedules.forEach((element) => {
+		examSchedules.sort().forEach((element) => {
 			console.log('🚀 ~ file: server.js:17 ~ examSchedules.forEach ~ element:', element);
 
 			cron.schedule(convertDate(element), initiateQuiz);

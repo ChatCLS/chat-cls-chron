@@ -2,7 +2,7 @@ const axios = require('axios');
 const fetchLatestExamSchedules = async () => {
 	try {
 		let res = await axios.get(
-			'https://00c4-103-199-84-171.ngrok-free.app/api/questionSet/fetchCurrentDateExamSchedule'
+			'https://chat-cls-dev-2dd03a86834f.herokuapp.com/api/questionSet/fetchCurrentDateExamSchedule'
 		);
 
 		return res.data['examSchedule'];

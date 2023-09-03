@@ -1,7 +1,8 @@
 const moment = require('moment-timezone');
 
 const convertDate = (inputDate) => {
-	const duration = moment.duration({ days: 0, hours: 0, minutes: 0 });
+	console.log('Input Date' + inputDate.toLocaleString());
+	const duration = moment.duration({ days: 0, hours: -6, minutes: 0 }); // if we set time from local machine set hours: 0 and for heroko hours: -6
 
 	// Parse the input date using moment-timezone
 	const parsedInputDate = moment(inputDate);

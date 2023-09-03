@@ -7,7 +7,7 @@ const initiateQuiz = async () => {
 	console.log('inside initiate quiz');
 	await axios
 		.get(
-			'https://00c4-103-199-84-171.ngrok-free.app/api/questionSet/fetchLatestExamInformation'
+			'https://chat-cls-dev-2dd03a86834f.herokuapp.com/api/questionSet/fetchLatestExamInformation'
 		)
 		.then((response) => {
 			if (response.status === 200) {
@@ -20,19 +20,15 @@ const initiateQuiz = async () => {
 };
 
 const getExamSchedule = async (req, res) => {
-	// console.log('inside get schedule');
-	// let examSchedules = await fetchLatestExamSchedules();
-	// if (examSchedules && examSchedules.length > 0) {
-	// 	examSchedules.sort().forEach((element) => {
-	// 		cron.schedule(convertDate(element), initiateQuiz);
-	// 	});
-	// }
-
 	console.log('inside get schedule');
 
 	try {
 		// Fetch the latest exam schedules
 		const examSchedules = await fetchLatestExamSchedules();
+		console.log(
+			'🚀 ~ file: initiateQuiz.js:28 ~ getExamSchedule ~ examSchedules:',
+			examSchedules
+		);
 
 		// Stop all previously scheduled jobs
 		scheduledJobs.forEach((job) => job.stop());
@@ -51,8 +47,6 @@ const getExamSchedule = async (req, res) => {
 		console.error('Error setting exam schedules:', error);
 		return res.status(500).send('Internal Server Error');
 	}
-
-	return res.status(200).send();
 };
 
 module.exports = { initiateQuiz, getExamSchedule };

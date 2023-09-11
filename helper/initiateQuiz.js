@@ -3,8 +3,12 @@ const cron = require('node-cron');
 const { fetchLatestExamSchedules } = require('./latestQuizSchedule');
 const { convertDate } = require('./convertExamSchedule');
 const scheduledJobs = [];
+/**
+ * Initiates a quiz by sending a GET request to a remote API to fetch the latest exam information.
+ *
+ * @returns {Promise<void>} A Promise that resolves when the quiz initiation is completed.
+ */
 const initiateQuiz = async () => {
-	console.log('inside initiate quiz');
 	await axios
 		.get(
 			'https://chat-cls-dev-2dd03a86834f.herokuapp.com/api/questionSet/fetchLatestExamInformation'
@@ -19,9 +23,15 @@ const initiateQuiz = async () => {
 		});
 };
 
-const getExamSchedule = async (req, res) => {
-	console.log('inside get schedule');
+/**
+ * Retrieves the latest exam schedules, schedules quiz jobs, and stops previously scheduled jobs.
+ *
+ * @param {Request} req - The Express.js request object.
+ * @param {Response} res - The Express.js response object.
+ * @returns {Response} A response indicating the success or failure of the operation.
+ */
 
+const getExamSchedule = async (req, res) => {
 	try {
 		// Fetch the latest exam schedules
 		const examSchedules = await fetchLatestExamSchedules();

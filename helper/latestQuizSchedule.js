@@ -1,4 +1,11 @@
 const axios = require('axios');
+
+/**
+ * Fetches the latest exam schedules from a remote API.
+ *
+ * @returns {Promise<Object[]>} A Promise that resolves to an array of exam schedules.
+ * @throws {Error} If an error occurs during the API request.
+ */
 const fetchLatestExamSchedules = async () => {
 	try {
 		let res = await axios.get(

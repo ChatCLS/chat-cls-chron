@@ -1,7 +1,14 @@
 const moment = require('moment-timezone');
 
+/**
+ * Converts a given input date to a formatted string representing a cron expression.
+ * The function takes into account a specified time zone offset to adjust the output date.
+ *
+ * @param {Date|string} inputDate - The input date to be converted (can be a Date object or a string in a recognized date format).
+ * @returns {string} A formatted cron expression representing the converted date and time.
+ */
+
 const convertDate = (inputDate) => {
-	console.log('Input Date' + inputDate.toLocaleString());
 	const duration = moment.duration({ days: 0, hours: -6, minutes: 0 }); // if we set time from local machine set hours: 0 and for heroko hours: -6
 
 	// Parse the input date using moment-timezone
@@ -26,7 +33,6 @@ const convertDate = (inputDate) => {
 	}
 
 	let formattedOutputDate = `${minute - 1} ${hour} ${date} ${month + 1} *`;
-	console.log(formattedOutputDate);
 
 	return formattedOutputDate;
 };

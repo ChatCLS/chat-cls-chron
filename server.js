@@ -4,7 +4,8 @@ const cron = require('node-cron');
 const { getExamSchedule } = require('./helper/initiateQuiz');
 const { default: axios } = require('axios');
 require('dotenv').config();
-const PORT = 8000;
+const config = require('./config/config');
+const PORT = config.port;
 
 server.get('/api/examSchedule', getExamSchedule);
 
@@ -15,13 +16,13 @@ server.get('/api/examSchedule', getExamSchedule);
  * @param {number} PORT - The port on which the HTTP server should listen.
  */
 server.listen(PORT, async () => {
-	await axios.get('http://localhost:8000/api/examSchedule').then((result) => {
+	await axios.get(config.localHostUrl + '/api/examSchedule').then((result) => {
 		console.log(result.data);
 		return result.status;
 	});
 
 	cron.schedule('0 6 * * *', async () => {
-		await axios.get('http://localhost:8000/api/examSchedule').then((result) => {
+		await axios.get(config.localHostUrl + '/api/examSchedule').then((result) => {
 			console.log(result.data);
 			return result.status;
 		});

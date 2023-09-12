@@ -2,6 +2,7 @@ const axios = require('axios');
 const cron = require('node-cron');
 const { fetchLatestExamSchedules } = require('./latestQuizSchedule');
 const { convertDate } = require('./convertExamSchedule');
+const config = require('../config/config');
 const scheduledJobs = [];
 /**
  * Initiates a quiz by sending a GET request to a remote API to fetch the latest exam information.
@@ -10,9 +11,7 @@ const scheduledJobs = [];
  */
 const initiateQuiz = async () => {
 	await axios
-		.get(
-			'https://chat-cls-dev-2dd03a86834f.herokuapp.com/api/questionSet/fetchLatestExamInformation'
-		)
+		.get(config.chatClsHerokuUrl + '/api/questionSet/fetchLatestExamInformation')
 		.then((response) => {
 			if (response.status === 200) {
 				console.log('Quiz Initiated');

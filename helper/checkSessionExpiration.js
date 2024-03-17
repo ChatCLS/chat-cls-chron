@@ -1,3 +1,6 @@
+const axios = require('axios');
+const config = require('../config/config');
+
 /**
  * Check if any session has expired.
  *
@@ -8,8 +11,15 @@
 
 const checkSessionExpiration = async (req, res) => {
 	try {
-		let res = await axios.get(
+		console.log(new Date().toLocaleString(), '🚀 Called session expiration api 🚀');
+		let data = await axios.post(
 			`${config.chatClsHerokuUrl}/api/session/checkSessionExpiration`
+		);
+
+		console.log(
+			new Date().toLocaleString(),
+			'🚀 Session expiration response: 🚀',
+			data.data
 		);
 
 		return res.status(200).send();

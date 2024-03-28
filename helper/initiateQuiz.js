@@ -4,23 +4,6 @@ const { fetchLatestExamSchedules } = require('./latestQuizSchedule');
 const { convertDate } = require('./convertExamSchedule');
 const config = require('../config/config');
 const scheduledJobs = [];
-/**
- * Initiates a quiz by sending a GET request to a remote API to fetch the latest exam information.
- *
- * @returns {Promise<void>} A Promise that resolves when the quiz initiation is completed.
- */
-const initiateQuiz = async () => {
-	await axios
-		.get(config.chatClsHerokuUrl + '/api/questionSet/fetchLatestExamInformation')
-		.then((response) => {
-			if (response.status === 200) {
-				console.log('Quiz Initiated');
-			}
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-};
 
 /**
  * Retrieves the latest exam schedules, schedules quiz jobs, and stops previously scheduled jobs.
@@ -46,16 +29,28 @@ const getExamSchedule = async (req, res) => {
 		if (examSchedules && examSchedules.length > 0) {
 			examSchedules.sort().forEach((element) => {
 				// Schedule new jobs and keep track of them
-				const job = cron.schedule(convertDate(element), initiateQuiz);
+				let cronScheduleTime = convertDate(element);
+				const job = cron.schedule(cronScheduleTime, () => {
+					axios
+						.get(config.chatClsHerokuUrl + '/api/questionSet/fetchLatestExamInformation')
+						.then((response) => {
+							if (response.status === 200) {
+								console.log('Quiz Initiated');
+							}
+						})
+						.catch((err) => {
+							console.log(err.message);
+						});
+				});
 				scheduledJobs.push(job);
 			});
 		}
 
 		return res.status(200).send();
 	} catch (error) {
-		console.error('Error setting exam schedules:', error);
+		console.error('Error setting exam schedules:', error.message);
 		return res.status(500).send('Internal Server Error');
 	}
 };
 
-module.exports = { initiateQuiz, getExamSchedule };
+module.exports = { getExamSchedule };

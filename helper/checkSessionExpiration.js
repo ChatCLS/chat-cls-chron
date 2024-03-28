@@ -24,7 +24,7 @@ const checkSessionExpiration = async (req, res) => {
 
 		return res.status(200).send();
 	} catch (error) {
-		console.error('Error setting exam schedules:', error);
+		console.error('Error setting exam schedules:', error.message);
 		return res.status(500).send('Internal Server Error');
 	}
 };

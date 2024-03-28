@@ -1,4 +1,5 @@
 const axios = require('axios');
+const config = require('../config/config');
 
 /**
  * Fetches the latest exam schedules from a remote API.
@@ -9,7 +10,7 @@ const axios = require('axios');
 const fetchLatestExamSchedules = async () => {
 	try {
 		let res = await axios.get(
-			'https://chat-cls-dev-2dd03a86834f.herokuapp.com/api/questionSet/fetchCurrentDateExamSchedule'
+			`${config.chatClsHerokuUrl}/api/questionSet/fetchCurrentDateExamSchedule`
 		);
 
 		return res.data['examSchedule'];

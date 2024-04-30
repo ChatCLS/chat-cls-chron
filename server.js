@@ -1,16 +1,17 @@
 const express = require('express');
 const server = express();
 const cron = require('node-cron');
-const { getExamSchedule } = require('./helper/initiateQuiz');
-const { checkSessionExpiration } = require('./helper/checkSessionExpiration');
-const { default: axios } = require('axios');
 require('dotenv').config();
+const { default: axios } = require('axios');
+const { checkSessionExpiration } = require('./helper/checkSessionExpiration');
+const { sendRankingResult } = require('./helper/sendRankingResult');
+const { getExamSchedule } = require('./helper/initiateQuiz');
 const config = require('./config/config');
 const PORT = config.port;
 
 server.get('/api/examSchedule', getExamSchedule);
 server.get('/api/checkSessionExpiration', checkSessionExpiration);
-server.get('/api/sendRankingResult', checkSessionExpiration);
+server.get('/api/sendRankingResult', sendRankingResult);
 
 /**
  * Starts an HTTP server and schedules cron tasks for periodic GET requests to an API endpoint.

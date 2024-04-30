@@ -10,6 +10,7 @@ const PORT = config.port;
 
 server.get('/api/examSchedule', getExamSchedule);
 server.get('/api/checkSessionExpiration', checkSessionExpiration);
+server.get('/api/sendRankingResult', checkSessionExpiration);
 
 /**
  * Starts an HTTP server and schedules cron tasks for periodic GET requests to an API endpoint.
@@ -37,6 +38,13 @@ server.listen(PORT, async () => {
 				console.log(result.data);
 				return result.status;
 			});
+	});
+
+	cron.schedule('0 10 * * 5', async () => {
+		await axios.get(config.localHostUrl + '/api/sendRankingResult').then((result) => {
+			console.log(result.data);
+			return result.status;
+		});
 	});
 
 	console.log(`listening on port ${PORT}`);

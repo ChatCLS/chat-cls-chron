@@ -37,11 +37,8 @@ const getDaily6AMCron = () => {
 	const targetTime = '06:00';
 	const targetTimeZone = 'Asia/Dhaka';
 
-	const serverTimeZone = moment.tz.guess();
-	console.log('Detected server timezone:', serverTimeZone);
-
 	const targetUtcTime = moment.tz(targetTime, 'HH:mm', targetTimeZone).utc();
-	const serverTime = targetUtcTime.clone().tz(serverTimeZone);
+	const serverTime = targetUtcTime.clone().tz('Europe/Berlin');
 
 	const hour = serverTime.format('H');
 	const minute = serverTime.format('m');
@@ -56,11 +53,8 @@ const getWeekly10AMCron = () => {
 	const targetTime = '10:00';
 	const targetTimeZone = 'Asia/Dhaka';
 
-	const serverTimeZone = moment.tz.guess();
-	console.log('Detected server timezone:', serverTimeZone);
-
 	const targetUtcTime = moment.tz(targetTime, 'HH:mm', targetTimeZone).utc();
-	const serverTime = targetUtcTime.clone().tz(serverTimeZone);
+	const serverTime = targetUtcTime.clone().tz('Europe/Berlin');
 
 	const hour = serverTime.format('H');
 	const minute = serverTime.format('m');

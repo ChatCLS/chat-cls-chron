@@ -10,10 +10,10 @@ const config = require('../config/config');
 const fetchLatestExamSchedules = async () => {
 	try {
 		let res = await axios.get(
-			`${config.chatClsHerokuUrl}/api/questionSet/fetchCurrentDateExamSchedule`
+			`${config.messengerBotUrl}/api/questionSet/fetchCurrentDateExamSchedule`
 		);
 
-		return res.data['examSchedule'];
+		return res.data;
 	} catch (err) {
 		console.log(
 			'🚀 ~ file: latestQuizSchedule.js:10 ~ fetchLatestExamSchedules ~ err:',

@@ -12,9 +12,7 @@ const config = require('../config/config');
 const sendRankingResult = async (req, res) => {
 	try {
 		console.log(new Date().toLocaleString(), '🚀 Called send ranking result api 🚀');
-		let data = await axios.post(
-			`${config.chatClsHerokuUrl}/api/leaderboard/leaderboard'`
-		);
+		let data = await axios.post(`${config.messengerBotUrl}/api/leaderboard/leaderboard`);
 
 		console.log(
 			new Date().toLocaleString(),

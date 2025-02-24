@@ -1,11 +1,10 @@
 require('dotenv').config();
 const config = {
-	port: process.env.PORT || 8000,
-	localHostUrl: process.env.LOCAL_HOST_URL || 'http://localhost:8000',
-	chatClsHerokuUrl:
-		process.env.CHAT_CLS_URL_HEROKU_URL ||
-		'https://chat-cls-messenger-bot-dc8fc0cf2948.herokuapp.com',
-	deployedInHerokuServer: process.env.DEPLOYED_IN_HEROKU_SERVER || false,
+	port: process.env.PORT || 5002,
+	localHostUrl: process.env.LOCAL_HOST_URL || 'http://localhost:5002',
+	messengerBotUrl:
+		process.env.MESSENGER_BOT_URL ||
+		'http://fs4ckosk4o800ww4g4ck0gkc.207.180.238.162.sslip.io',
 };
 
 module.exports = config;

@@ -13,7 +13,7 @@ const checkSessionExpiration = async (req, res) => {
 	try {
 		console.log(new Date().toLocaleString(), '🚀 Called session expiration api 🚀');
 		let data = await axios.post(
-			`${config.chatClsHerokuUrl}/api/session/checkSessionExpiration`
+			`${config.messengerBotUrl}/api/session/checkSessionExpiration`
 		);
 
 		console.log(

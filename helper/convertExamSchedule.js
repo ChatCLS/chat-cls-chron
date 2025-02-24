@@ -9,19 +9,8 @@ const config = require('../config/config');
  * @returns {string} A formatted cron expression representing the converted date and time.
  */
 
-const convertDate = (inputDate) => {
-	// if we set time from local machine set hours: 0 and for heroko hours: -6
-	const duration = moment.duration({
-		days: 0,
-		hours: config.deployedInHerokuServer ? -6 : 0,
-		minutes: 0,
-	});
-
-	// Parse the input date using moment-timezone
-	const parsedInputDate = moment(inputDate);
-
-	// Add the duration to the parsed input date
-	const outputDate = parsedInputDate.add(duration);
+const convertDateToCron = (inputDate) => {
+	const outputDate = moment(inputDate);
 
 	let minute = outputDate.minute();
 	let hour = outputDate.hour();
@@ -39,8 +28,47 @@ const convertDate = (inputDate) => {
 	}
 
 	let formattedOutputDate = `${minute - 1} ${hour} ${date} ${month + 1} *`;
+	console.log(inputDate, formattedOutputDate);
 
 	return formattedOutputDate;
 };
 
-module.exports = { convertDate };
+const getDaily6AMCron = () => {
+	const targetTime = '06:00';
+	const targetTimeZone = 'Asia/Dhaka';
+
+	const serverTimeZone = moment.tz.guess();
+	console.log('Detected server timezone:', serverTimeZone);
+
+	const targetUtcTime = moment.tz(targetTime, 'HH:mm', targetTimeZone).utc();
+	const serverTime = targetUtcTime.clone().tz(serverTimeZone);
+
+	const hour = serverTime.format('H');
+	const minute = serverTime.format('m');
+
+	const cronExpression = `${minute} ${hour} * * *`;
+	console.log('Cron expression for daily 6 AM:', cronExpression);
+
+	return cronExpression;
+};
+
+const getWeekly10AMCron = () => {
+	const targetTime = '10:00';
+	const targetTimeZone = 'Asia/Dhaka';
+
+	const serverTimeZone = moment.tz.guess();
+	console.log('Detected server timezone:', serverTimeZone);
+
+	const targetUtcTime = moment.tz(targetTime, 'HH:mm', targetTimeZone).utc();
+	const serverTime = targetUtcTime.clone().tz(serverTimeZone);
+
+	const hour = serverTime.format('H');
+	const minute = serverTime.format('m');
+
+	const cronExpression = `${minute} ${hour} * * 5`;
+	console.log('Cron expression for weekly 10 AM:', cronExpression);
+
+	return cronExpression;
+};
+
+module.exports = { convertDateToCron, getDaily6AMCron, getWeekly10AMCron };

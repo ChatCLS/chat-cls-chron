@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const { fetchLatestExamSchedules } = require('./latestQuizSchedule');
-const { convertDate } = require('./convertExamSchedule');
+const { convertDateToCron } = require('./convertExamSchedule');
 const config = require('../config/config');
 const scheduledJobs = [];
 
@@ -27,12 +27,12 @@ const getExamSchedule = async (req, res) => {
 		scheduledJobs.length = 0; // Clear the array
 
 		if (examSchedules && examSchedules.length > 0) {
-			examSchedules.sort().forEach((element) => {
+			examSchedules.forEach((element) => {
 				// Schedule new jobs and keep track of them
-				let cronScheduleTime = convertDate(element);
+				let cronScheduleTime = convertDateToCron(element);
 				const job = cron.schedule(cronScheduleTime, () => {
 					axios
-						.get(config.chatClsHerokuUrl + '/api/questionSet/fetchLatestExamInformation')
+						.get(config.messengerBotUrl + '/api/questionSet/fetchLatestExamInformation')
 						.then((response) => {
 							if (response.status === 200) {
 								console.log('Quiz Initiated');

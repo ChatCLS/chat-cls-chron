@@ -6,6 +6,7 @@ const { default: axios } = require('axios');
 const { checkSessionExpiration } = require('./helper/checkSessionExpiration');
 const { sendRankingResult } = require('./helper/sendRankingResult');
 const { getExamSchedule } = require('./helper/initiateQuiz');
+const { getDaily6AMCron, getWeekly10AMCron } = require('./helper/convertExamSchedule');
 const config = require('./config/config');
 const PORT = config.port;
 
@@ -25,7 +26,10 @@ server.listen(PORT, async () => {
 		return result.status;
 	});
 
-	cron.schedule('0 6 * * *', async () => {
+	const daily6AMCron = getDaily6AMCron();
+	const weekly10AMCron = getWeekly10AMCron();
+
+	cron.schedule(daily6AMCron, async () => {
 		await axios.get(config.localHostUrl + '/api/examSchedule').then((result) => {
 			console.log(result.data);
 			return result.status;
@@ -41,7 +45,7 @@ server.listen(PORT, async () => {
 			});
 	});
 
-	cron.schedule('0 10 * * 5', async () => {
+	cron.schedule(weekly10AMCron, async () => {
 		await axios.get(config.localHostUrl + '/api/sendRankingResult').then((result) => {
 			console.log(result.data);
 			return result.status;

@@ -13,13 +13,17 @@ const convertDateToCron = (inputDate) => {
 	// First convert to Bangladesh time to ensure correct interpretation
 	const bdTime = moment(inputDate).tz('Asia/Dhaka');
 
-	// Convert to UTC then to Berlin time
-	const berlinTime = bdTime.clone().utc().tz('Europe/Berlin');
+	// Guess the server timezone
+	const serverTimezone = moment.tz.guess();
+	console.log('Server Timezone:', serverTimezone);
 
-	let minute = berlinTime.minute();
-	let hour = berlinTime.hour();
-	let date = berlinTime.date();
-	let month = berlinTime.month();
+	// Convert to UTC then to Berlin time
+	const serverTime = bdTime.clone().utc().tz(serverTimezone);
+
+	let minute = serverTime.minute();
+	let hour = serverTime.hour();
+	let date = serverTime.date();
+	let month = serverTime.month();
 
 	if (minute == 0) {
 		hour = hour - 1;
@@ -33,7 +37,7 @@ const convertDateToCron = (inputDate) => {
 
 	let formattedOutputDate = `${minute - 1} ${hour} ${date} ${month + 1} *`;
 	console.log('Question Set Cron (BD Time):', bdTime.format('YYYY-MM-DD HH:mm'));
-	console.log('Question Set Cron (Berlin Time):', berlinTime.format('YYYY-MM-DD HH:mm'));
+	console.log('Question Set Cron (Berlin Time):', serverTime.format('YYYY-MM-DD HH:mm'));
 	console.log('Resulting Cron:', formattedOutputDate);
 
 	return formattedOutputDate;
@@ -43,8 +47,12 @@ const getDaily6AMCron = () => {
 	const targetTime = '06:00';
 	const targetTimeZone = 'Asia/Dhaka';
 
+	// Guess the server timezone
+	const serverTimezone = moment.tz.guess();
+	console.log('Server Timezone:', serverTimezone);
+
 	const targetUtcTime = moment.tz(targetTime, 'HH:mm', targetTimeZone).utc();
-	const serverTime = targetUtcTime.clone().tz('Europe/Berlin');
+	const serverTime = targetUtcTime.clone().tz(serverTimezone);
 
 	const hour = serverTime.format('H');
 	const minute = serverTime.format('m');
@@ -59,8 +67,12 @@ const getWeekly10AMCron = () => {
 	const targetTime = '10:00';
 	const targetTimeZone = 'Asia/Dhaka';
 
+	// Guess the server timezone
+	const serverTimezone = moment.tz.guess();
+	console.log('Server Timezone:', serverTimezone);
+
 	const targetUtcTime = moment.tz(targetTime, 'HH:mm', targetTimeZone).utc();
-	const serverTime = targetUtcTime.clone().tz('Europe/Berlin');
+	const serverTime = targetUtcTime.clone().tz(serverTimezone);
 
 	const hour = serverTime.format('H');
 	const minute = serverTime.format('m');

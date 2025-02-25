@@ -11,16 +11,7 @@ const config = require('../config/config');
 
 const checkSessionExpiration = async (req, res) => {
 	try {
-		console.log(new Date().toLocaleString(), '🚀 Called session expiration api 🚀');
-		let data = await axios.post(
-			`${config.messengerBotUrl}/api/session/checkSessionExpiration`
-		);
-
-		console.log(
-			new Date().toLocaleString(),
-			'🚀 Session expiration response: 🚀',
-			data.data
-		);
+		await axios.post(`${config.messengerBotUrl}/api/session/checkSessionExpiration`);
 
 		return res.status(200).send();
 	} catch (error) {

@@ -10,12 +10,16 @@ const config = require('../config/config');
  */
 
 const convertDateToCron = (inputDate) => {
-	const outputDate = moment(inputDate);
+	// First convert to Bangladesh time to ensure correct interpretation
+	const bdTime = moment(inputDate).tz('Asia/Dhaka');
 
-	let minute = outputDate.minute();
-	let hour = outputDate.hour();
-	let date = outputDate.date();
-	let month = outputDate.month();
+	// Convert to UTC then to Berlin time
+	const berlinTime = bdTime.clone().utc().tz('Europe/Berlin');
+
+	let minute = berlinTime.minute();
+	let hour = berlinTime.hour();
+	let date = berlinTime.date();
+	let month = berlinTime.month();
 
 	if (minute == 0) {
 		hour = hour - 1;
@@ -28,7 +32,9 @@ const convertDateToCron = (inputDate) => {
 	}
 
 	let formattedOutputDate = `${minute - 1} ${hour} ${date} ${month + 1} *`;
-	console.log(inputDate, formattedOutputDate);
+	console.log('Question Set Cron (BD Time):', bdTime.format('YYYY-MM-DD HH:mm'));
+	console.log('Question Set Cron (Berlin Time):', berlinTime.format('YYYY-MM-DD HH:mm'));
+	console.log('Resulting Cron:', formattedOutputDate);
 
 	return formattedOutputDate;
 };

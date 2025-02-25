@@ -22,7 +22,6 @@ server.get('/api/sendRankingResult', sendRankingResult);
  */
 server.listen(PORT, async () => {
 	await axios.get(config.localHostUrl + '/api/examSchedule').then((result) => {
-		console.log(result.data);
 		return result.status;
 	});
 
@@ -31,7 +30,7 @@ server.listen(PORT, async () => {
 
 	cron.schedule(daily6AMCron, async () => {
 		await axios.get(config.localHostUrl + '/api/examSchedule').then((result) => {
-			console.log(result.data);
+			console.log('daily 6am cron', result.data);
 			return result.status;
 		});
 	});
@@ -40,14 +39,13 @@ server.listen(PORT, async () => {
 		await axios
 			.get(config.localHostUrl + '/api/checkSessionExpiration')
 			.then((result) => {
-				console.log(result.data);
 				return result.status;
 			});
 	});
 
 	cron.schedule(weekly10AMCron, async () => {
 		await axios.get(config.localHostUrl + '/api/sendRankingResult').then((result) => {
-			console.log(result.data);
+			console.log('weekly 10am cron', result.data);
 			return result.status;
 		});
 	});

@@ -35,7 +35,9 @@ const getExamSchedule = async (req, res) => {
 						.get(config.messengerBotUrl + '/api/questionSet/fetchLatestExamInformation')
 						.then((response) => {
 							if (response.status === 200) {
-								console.log('Quiz Initiated');
+								console.log(
+									`${moment().tz('Asia/Dhaka').format('DD-MM-YYYY HH:mm')} Quiz Initiated`
+								);
 							}
 						})
 						.catch((err) => {

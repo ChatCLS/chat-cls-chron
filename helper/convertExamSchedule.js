@@ -17,7 +17,7 @@ const convertDateToCron = (inputDate) => {
 	const serverTimezone = moment.tz.guess();
 	console.log('Server Timezone:', serverTimezone);
 
-	// Convert to UTC then to Berlin time
+	// Convert to UTC then to Server time
 	const serverTime = bdTime.clone().utc().tz(serverTimezone);
 
 	let minute = serverTime.minute();
@@ -37,7 +37,7 @@ const convertDateToCron = (inputDate) => {
 
 	let formattedOutputDate = `${minute - 1} ${hour} ${date} ${month + 1} *`;
 	console.log('Question Set Cron (BD Time):', bdTime.format('YYYY-MM-DD HH:mm'));
-	console.log('Question Set Cron (Berlin Time):', serverTime.format('YYYY-MM-DD HH:mm'));
+	console.log('Question Set Cron (Server Time):', serverTime.format('YYYY-MM-DD HH:mm'));
 	console.log('Resulting Cron:', formattedOutputDate);
 
 	return formattedOutputDate;

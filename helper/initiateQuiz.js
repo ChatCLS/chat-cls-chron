@@ -5,15 +5,7 @@ const { convertDateToCron } = require('./convertExamSchedule');
 const config = require('../config/config');
 const scheduledJobs = [];
 
-/**
- * Retrieves the latest exam schedules, schedules quiz jobs, and stops previously scheduled jobs.
- *
- * @param {Request} req - The Express.js request object.
- * @param {Response} res - The Express.js response object.
- * @returns {Response} A response indicating the success or failure of the operation.
- */
-
-const getExamSchedule = async (req, res) => {
+const getExamSchedule = async () => {
 	try {
 		// Fetch the latest exam schedules
 		const examSchedules = await fetchLatestExamSchedules();
@@ -48,10 +40,10 @@ const getExamSchedule = async (req, res) => {
 			});
 		}
 
-		return res.status(200).send();
+		return true;
 	} catch (error) {
 		console.error('Error setting exam schedules:', error.message);
-		return res.status(500).send('Internal Server Error');
+		return false;
 	}
 };
 

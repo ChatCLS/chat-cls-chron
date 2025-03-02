@@ -16,7 +16,7 @@ const fetchLatestExamSchedules = async () => {
 		return res.data;
 	} catch (err) {
 		console.log(
-			'🚀 ~ file: latestQuizSchedule.js:10 ~ fetchLatestExamSchedules ~ err:',
+			'🚀 ~ file: latestQuizSchedule.js ~ fetchLatestExamSchedules ~ err:',
 			err.message
 		);
 	}
